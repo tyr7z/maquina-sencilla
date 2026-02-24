@@ -140,6 +140,15 @@ pub fn native_build(b: *std.Build, config: Config, optimize: std.builtin.Optimiz
     });
     exe.linkLibC();
     exe.linkLibCpp(); //imgui needs libcpp
+    if (target.result.os.tag == .windows) {
+        exe.linkSystemLibrary("kernel32");
+        exe.linkSystemLibrary("user32");
+        exe.linkSystemLibrary("gdi32");
+        exe.linkSystemLibrary("ole32");
+        exe.linkSystemLibrary("d3d11");
+        exe.linkSystemLibrary("dxgi");
+        exe.linkSystemLibrary("d3dcompiler_47");
+    }
     exe.addIncludePath(b.path("src/"));
 
     //native file dialog
